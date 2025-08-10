@@ -1,5 +1,4 @@
-# Write the exported single-file site with baked branding + dataset
-html = """<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -55,21 +54,10 @@ html = """<!doctype html>
                   radial-gradient(900px 500px at 90% 10%, color-mix(in oklab, var(--brandB) 28%, transparent), transparent 50%),
                   radial-gradient(800px 400px at 50% 120%, rgba(255,255,255,.08), transparent 50%);
     }
-    .btn {
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 1rem;
-      padding: .75rem 1.1rem;
-      font-weight: 600;
-      color: #fff;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      transition: box-shadow .2s, transform .04s, border-color .2s;
-    }
+    .btn { border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; padding: .75rem 1.1rem; font-weight: 600; color: #fff; background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); transition: box-shadow .2s, transform .04s, border-color .2s; }
     .btn:hover { box-shadow: 0 8px 30px color-mix(in oklab, var(--brandB) 18%, transparent); border-color: rgba(255,255,255,.18); }
     .btn:active { transform: scale(.98); }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--brandA) 0%, var(--brandB) 100%);
-      color: #0b0f14;
-    }
+    .btn-primary { background: linear-gradient(135deg, var(--brandA) 0%, var(--brandB) 100%); color: #0b0f14; }
     .chip { padding:.35rem .7rem; border-radius:999px; border:1px solid rgba(255,255,255,0.12); font-size:.85rem; }
     .chip.active { background: linear-gradient(135deg, color-mix(in oklab, var(--brandA) 35%, transparent), color-mix(in oklab, var(--brandB) 35%, transparent)); border-color: transparent; }
     .card-idea { border-radius: 1rem; border:1px solid rgba(255,255,255,0.08); padding:1.1rem; background: color-mix(in oklab, #0e131a 88%, transparent); transition:.2s; box-shadow: 0 0 0 1px rgba(157,123,255,0.12), 0 8px 40px rgba(157,123,255,0.08), inset 0 0 60px rgba(157,123,255,0.05); }
@@ -92,18 +80,7 @@ html = """<!doctype html>
     "brandA":"#FF3D81",
     "brandB":"#00F5D4",
     "logoURL":"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='rgb(255,61,129)'/><stop offset='100%' stop-color='rgb(0,245,212)'/></linearGradient></defs><rect width='512' height='512' rx='64' fill='url(%23g)'/><text x='50%' y='58%' text-anchor='middle' font-family='Inter,Arial,Helvetica,sans-serif' font-weight='900' font-size='260' fill='white'>NN</text></svg>",
-    "analytics":{ "ga4": "", "plausible": "" },
-    "dataset":[
-      { "name": "Jaipur, India", "vibe":["Culture","Foodie"], "budget":"Mid-range", "season":["Winter","Autumn"], "hero":"https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?q=80&w=1400&auto=format&fit=crop" },
-      { "name": "Bali, Indonesia", "vibe":["Beach","Romantic"], "budget":"Mid-range", "season":["Summer"], "hero":"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop" },
-      { "name": "Kyoto, Japan", "vibe":["Culture","Hidden gems"], "budget":"Luxury", "season":["Spring","Autumn"], "hero":"https://images.unsplash.com/photo-1511735111819-9a3f7709049c?q=80&w=1400&auto=format&fit=crop" },
-      { "name": "Tbilisi, Georgia", "vibe":["Hidden gems","Foodie"], "budget":"Shoestring", "season":["Spring","Autumn"], "hero":"https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?q=80&w=1400&auto=format&fit=crop" },
-      { "name": "Krabi, Thailand", "vibe":["Beach","Adventure"], "budget":"Shoestring", "season":["Winter","Summer"], "hero":"https://images.unsplash.com/photo-1545243424-0ce743321e11?q=80&w=1400&auto=format&fit=crop" },
-      { "name": "Lisbon, Portugal", "vibe":["Hidden gems","Foodie"], "budget":"Mid-range", "season":["Spring","Autumn"], "hero":"https://images.unsplash.com/photo-1543340900-5381232b9069?q=80&w=1400&auto=format&fit=crop" },
-      { "name": "Kerala Backwaters, India", "vibe":["Romantic","Hidden gems"], "budget":"Mid-range", "season":["Monsoon","Winter"], "hero":"https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?q=80&w=1400&auto=format&fit=crop" },
-      { "name": "Zanzibar, Tanzania", "vibe":["Beach","Romantic"], "budget":"Luxury", "season":["Summer","Winter"], "hero":"https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1400&auto=format&fit=crop" },
-      { "name": "Prague, Czechia", "vibe":["Culture","Hidden gems"], "budget":"Mid-range", "season":["Winter","Spring","Autumn"], "hero":"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1400&auto=format&fit=crop" }
-    ]
+    "analytics":{ "ga4": "", "plausible": "" }
   }
   </script>
 
@@ -131,8 +108,6 @@ html = """<!doctype html>
       <button id="btnSaved" class="btn hidden sm:inline-flex">Saved Board</button>
       <button id="btnCustomize" class="btn">⚙️ Customize</button>
       <button id="btnData" class="btn hidden sm:inline-flex">Data Source</button>
-      <a href="https://app.netlify.com/drop" target="_blank" class="btn btn-primary hidden sm:inline-flex">Netlify Drop</a>
-      <button id="btnExportSite" class="btn btn-primary">Export Customized Site</button>
     </div>
   </header>
 
@@ -169,6 +144,40 @@ html = """<!doctype html>
                 </div>
                 <button id="btnGenerate" class="btn btn-primary whitespace-nowrap">Generate</button>
               </div>
+
+              <!-- NEW: destination dropdown + custom add panel -->
+              <div class="mt-3 grid grid-cols-1 lg:grid-cols-3 gap-2 text-xs">
+                <div class="lg:col-span-2 flex items-center gap-2">
+                  <select id="selectDestList" class="input">
+                    <option value="">Choose a destination…</option>
+                    <option value="__custom">➕ Add custom destination…</option>
+                  </select>
+                  <span class="text-white/50">or type above</span>
+                </div>
+                <button id="btnUseSelected" class="btn">Use Selected</button>
+              </div>
+
+              <div id="customDestinationPanel" class="hidden mt-3 rounded-2xl border border-line p-3">
+                <div class="text-sm uppercase tracking-wide text-white/60 mb-2">Add custom destination</div>
+                <div class="grid sm:grid-cols-2 gap-2">
+                  <input id="customName" class="input" placeholder="Name (e.g., Jaipur, India)" />
+                  <input id="customHero" class="input" placeholder="Hero image URL (optional)" />
+                  <input id="customVibe" class="input" placeholder="Vibe(s) e.g., Culture;Foodie" />
+                  <select id="customBudget" class="input">
+                    <option value="">Budget (optional)</option>
+                    <option>Shoestring</option>
+                    <option>Mid-range</option>
+                    <option>Luxury</option>
+                  </select>
+                  <input id="customSeason" class="input sm:col-span-2" placeholder="Season(s) e.g., Winter;Autumn" />
+                </div>
+                <div class="mt-2 flex items-center justify-end gap-2">
+                  <button id="btnCancelCustom" class="btn" type="button">Cancel</button>
+                  <button id="btnAddCustom" class="btn btn-primary" type="button">Add to list</button>
+                </div>
+                <div class="text-[11px] text-white/50 mt-1">Tip: Use <b>Save as Default</b> in Data Source to keep these between sessions.</div>
+              </div>
+
               <div class="mt-3 grid grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
                 <select id="selectSeason" class="input">
                   <option value="">Any season</option>
@@ -295,7 +304,7 @@ html = """<!doctype html>
         <button class="btn">Close</button>
       </div>
       <div class="p-5 space-y-3">
-        <p class="text-white/70 text-sm">Load a public <b>CSV</b> (Google Sheets: File → Share → Publish to web → CSV) or a <b>JSON</b> URL. Expected schema:</p>
+        <p class="text-white/70 text-sm">Load a public <b>CSV</b> (Google Sheets: File → Share → Publish to web → CSV) or a <b>JSON</b> URL. Expected schema:</n>
         <pre class="text-xs bg-black/30 p-3 rounded-xl border border-line overflow-x-auto">[
   {
     "name": "Jaipur, India",
@@ -325,6 +334,23 @@ html = """<!doctype html>
     </form>
   </dialog>
 
+  <!-- Copy Fallback Modal -->
+  <dialog id="dlgCopy" class="w-[92%] max-w-xl rounded-2xl p-0 bg-card/95 border border-line">
+    <form method="dialog">
+      <div class="p-4 border-b border-line flex items-center justify-between">
+        <div class="text-lg font-bold">Manual copy</div>
+        <button class="btn">Close</button>
+      </div>
+      <div class="p-4 space-y-2">
+        <p class="text-white/70 text-sm">Your browser blocked clipboard access. Press <span class="kbd">CTRL</span>/<span class="kbd">CMD</span> + <span class="kbd">C</span> to copy the selection.</p>
+        <textarea id="manualCopyText" class="input" rows="8"></textarea>
+        <div class="flex items-center justify-end gap-2">
+          <button id="btnSelectAllCopy" class="btn" value="default">Select All</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
   <!-- Footer -->
   <footer class="border-t border-line">
     <div class="max-w-7xl mx-auto px-4 py-10 lg:py-12 grid lg:grid-cols-2 gap-6">
@@ -332,24 +358,24 @@ html = """<!doctype html>
         <h4 class="text-xl font-bold mb-2">Design notes</h4>
         <p class="text-white/70 text-sm lg:text-base">
           Dark, glossy glass UI with neon gradient accents, micro-interactions, and soft glows. Mobile-first and keyboard friendly.
-          One-file build for instant hosting: try <b>Netlify Drop</b> for a public URL in seconds.
+          One-file build for instant hosting: publish via GitHub Pages or Netlify Drop.
         </p>
       </div>
       <div class="grid sm:grid-cols-2 gap-3">
         <div class="rounded-2xl border border-line p-4 glass">
           <div class="tag mb-2">Deploy in seconds</div>
           <ol class="text-white/70 text-sm list-decimal list-inside space-y-1">
-            <li>Click <span class="kbd">Netlify Drop</span> above</li>
-            <li>Drag & drop your exported HTML</li>
+            <li>Open Netlify Drop</li>
+            <li>Drag & drop this HTML file</li>
             <li>Get a public link instantly</li>
           </ol>
         </div>
         <div class="rounded-2xl border border-line p-4 glass">
           <div class="tag mb-2">Tips</div>
           <ul class="text-white/70 text-sm space-y-1">
+            <li>Use the new destination dropdown to add or pick places</li>
             <li>Press <span class="kbd">CTRL</span> + <span class="kbd">K</span> to focus search</li>
             <li>Save your best ideas to the board</li>
-            <li>Export a customized site with your branding</li>
           </ul>
         </div>
       </div>
@@ -393,10 +419,7 @@ html = """<!doctype html>
         document.head.appendChild(s2);
       }
       if(appConfig.analytics?.plausible){
-        const s = document.createElement("script");
-        s.defer = true; s.setAttribute("data-domain", appConfig.analytics.plausible);
-        s.src = "https://plausible.io/js/script.js";
-        document.head.appendChild(s);
+        const s = document.createElement("script"); s.defer = true; s.setAttribute("data-domain", appConfig.analytics.plausible); s.src = "https://plausible.io/js/script.js"; document.head.appendChild(s);
       }
     };
 
@@ -444,78 +467,90 @@ html = """<!doctype html>
     // --- Utilities ---
     const $ = sel => document.querySelector(sel);
     const $$ = sel => Array.from(document.querySelectorAll(sel));
-    const toast = (msg) => {
-      const t = $("#toast"); $("#toastText").textContent = msg; t.classList.remove("hidden");
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(()=>t.classList.add("hidden"), 2200);
-    };
+    const toast = (msg) => { const t = $("#toast"); $("#toastText").textContent = msg; t.classList.remove("hidden"); clearTimeout(window._toastTimer); window._toastTimer = setTimeout(()=>t.classList.add("hidden"), 2200); };
     const random = arr => arr[Math.floor(Math.random()*arr.length)];
     const shuffle = (arr) => arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
-    const copyText = async (text) => {
-      try { await navigator.clipboard.writeText(text); toast("Copied to clipboard"); }
-      catch(e){ console.error(e); toast("Copy failed"); }
+
+    // Clipboard with secure fallback (fixes NotAllowedError in sandbox)
+    const copyText = async (text, evt) => {
+      try {
+        // Use Clipboard API only on user gesture + secure context
+        if (evt && evt.isTrusted && navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          toast("Copied to clipboard");
+          return true;
+        }
+        // Fallback to execCommand
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, ta.value.length);
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if(ok){ toast('Copied to clipboard'); return true; }
+        throw new Error('execCommand failed');
+      } catch(e){
+        // Last resort: open manual copy dialog
+        const dlg = document.getElementById('dlgCopy');
+        const area = document.getElementById('manualCopyText');
+        if(dlg && area){ area.value = text; dlg.showModal(); setTimeout(()=>{ area.focus(); area.select(); }, 50); toast('Press CTRL/CMD+C to copy'); }
+        return false;
+      }
     };
+
     const parseCSV = (csv) => {
       const lines = csv.trim().split(/\r?\n/);
       const headers = lines.shift().split(",").map(h => h.trim());
       const idx = (k)=> headers.findIndex(h => h.toLowerCase()===k.toLowerCase());
       const out = [];
-      for(const line of lines){
-        if(!line.trim()) continue;
-        const cells = line.split(",").map(c => c.trim());
-        const get = (k)=> cells[idx(k)] || "";
-        const vibes = (get("vibe")||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean);
-        const seasons = (get("season")||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean);
-        out.push({ name:get("name"), vibe:vibes, budget:get("budget")||"", season:seasons, hero:get("hero")||"" });
-      }
-      return out;
-    };
+      for(const line of lines){ if(!line.trim()) continue; const cells = line.split(",").map(c => c.trim()); const get = (k)=> cells[idx(k)] || ""; const vibes = (get("vibe")||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean); const seasons = (get("season")||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean); out.push({ name:get("name"), vibe:vibes, budget:get("budget")||"", season:seasons, hero:get("hero")||"" }); }
+      return out; };
 
     // --- State ---
-    let state = {
-      type: "Reel",
-      search: "",
-      season: "",
-      budget: "",
-      vibe: "",
-      ideas: [],
-      saved: JSON.parse(localStorage.getItem("travel_ideas_saved") || "[]"),
-      dataset: DEFAULT_DATA.slice(),
-    };
+    let state = { type: "Reel", search: "", season: "", budget: "", vibe: "", ideas: [], saved: JSON.parse(localStorage.getItem("travel_ideas_saved") || "[]"), dataset: DEFAULT_DATA.slice() };
 
     // Apply branding
     const setBranding = () => { setCSS(); injectAnalytics(); };
     setBranding();
 
+    // --- Destination dropdown helpers ---
+    const refreshDestinationSelect = () => {
+      const sel = document.getElementById('selectDestList'); if(!sel) return;
+      const keep = sel.value; // remember selection
+      // Remove all options except the first two
+      sel.querySelectorAll('option:not(:first-child):not([value="__custom"])').forEach(o=>o.remove());
+      const names = Array.from(new Set(state.dataset.map(d=>d.name))).sort((a,b)=>a.localeCompare(b));
+      for(const n of names){ const o = document.createElement('option'); o.value = n; o.textContent = n; sel.insertBefore(o, sel.querySelector('option[value="__custom"]')); }
+      if(keep && sel.querySelector(`option[value="${keep}"]`)) sel.value = keep; else sel.value = '';
+    };
+
+    const showCustomPanel = (show) => {
+      const panel = document.getElementById('customDestinationPanel');
+      panel.classList.toggle('hidden', !show);
+    };
+
+    const addCustomDestination = () => {
+      const name = document.getElementById('customName').value.trim();
+      if(!name){ toast('Enter a destination name'); return; }
+      const hero = document.getElementById('customHero').value.trim();
+      const vibeRaw = document.getElementById('customVibe').value.trim();
+      const budget = document.getElementById('customBudget').value.trim();
+      const seasonRaw = document.getElementById('customSeason').value.trim();
+      const vibe = vibeRaw ? vibeRaw.split(/;|\||,/) .map(s=>s.trim()).filter(Boolean) : [];
+      const season = seasonRaw ? seasonRaw.split(/;|\||,/) .map(s=>s.trim()).filter(Boolean) : [];
+      state.dataset.push({ name, hero, vibe, budget, season });
+      refreshDestinationSelect();
+      document.getElementById('selectDestList').value = name;
+      document.getElementById('inputDestination').value = name; state.search = name;
+      showCustomPanel(false);
+      toast('Destination added');
+    };
+
     // --- Renderers ---
     const ideaCard = (idea, idx) => {
       const img = idea.hero || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1400&auto=format&fit=crop";
-      const tags = idea.tags?.map(t=>`<span class="chip">${t}</span>`).join(" ") || "";
+      const tags = idea.tags?.map(t=>`<span class=\"chip\">${t}</span>`).join(" ") || "";
       return `
-      <article class="card-idea group">
-        <div class="relative overflow-hidden rounded-xl mb-3">
-          <img alt="${idea.destination}" src="${img}" class="w-full h-44 object-cover transition group-hover:scale-[1.04]" />
-          <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent"></div>
-          <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-            <div>
-              <div class="tag mb-0.5">${idea.type}</div>
-              <div class="font-semibold">${idea.destination}</div>
-            </div>
-            <button class="btn text-xs" data-copy="${idx}">Copy</button>
-          </div>
-        </div>
-        <div class="space-y-2">
-          <div><span class="tag">Hook</span><div class="text-white/90 leading-snug">${idea.hook}</div></div>
-          <div><span class="tag">Shotlist</span><div class="text-white/80 text-sm">${idea.shotlist}</div></div>
-          <div><span class="tag">Caption starter</span><div class="text-white/80 text-sm">${idea.caption}</div></div>
-          <div class="flex flex-wrap gap-2">${tags}</div>
-          <div class="text-white/50 text-xs">${idea.hashtags.join(" ")}</div>
-        </div>
-        <div class="mt-3 flex items-center gap-2">
-          <button class="btn flex-1" data-save="${idx}">Save</button>
-          <a class="btn flex-1" target="_blank" href="https://www.google.com/maps/search/${encodeURIComponent(idea.destination)}">Open in Maps</a>
-        </div>
-      </article>`;
+      <article class=\"card-idea group\">\n        <div class=\"relative overflow-hidden rounded-xl mb-3\">\n          <img alt=\"${idea.destination}\" src=\"${img}\" class=\"w-full h-44 object-cover transition group-hover:scale-[1.04]\" />\n          <div class=\"absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent\"></div>\n          <div class=\"absolute bottom-2 left-2 right-2 flex items-center justify-between\">\n            <div>\n              <div class=\"tag mb-0.5\">${idea.type}</div>\n              <div class=\"font-semibold\">${idea.destination}</div>\n            </div>\n            <button class=\"btn text-xs\" data-copy=\"${idx}\">Copy</button>\n          </div>\n        </div>\n        <div class=\"space-y-2\">\n          <div><span class=\"tag\">Hook</span><div class=\"text-white/90 leading-snug\">${idea.hook}</div></div>\n          <div><span class=\"tag\">Shotlist</span><div class=\"text-white/80 text-sm\">${idea.shotlist}</div></div>\n          <div><span class=\"tag\">Caption starter</span><div class=\"text-white/80 text-sm\">${idea.caption}</div></div>\n          <div class=\"flex flex-wrap gap-2\">${tags}</div>\n          <div class=\"text-white/50 text-xs\">${idea.hashtags.join(" ")}</div>\n        </div>\n        <div class=\"mt-3 flex items-center gap-2\">\n          <button class=\"btn flex-1\" data-save=\"${idx}\">Save</button>\n          <a class=\"btn flex-1\" target=\"_blank\" href=\"https://www.google.com/maps/search/${encodeURIComponent(idea.destination)}\">Open in Maps</a>\n        </div>\n      </article>`;
     };
 
     const renderIdeas = () => {
@@ -525,14 +560,8 @@ html = """<!doctype html>
         btn.addEventListener("click", e => {
           const idx = +e.currentTarget.getAttribute("data-copy");
           const i = state.ideas[idx];
-          const text = `Content Type: ${i.type}
-Destination: ${i.destination}
-Hook: ${i.hook}
-Shotlist: ${i.shotlist}
-Caption: ${i.caption}
-Tags: ${i.tags?.join(", ")}
-Hashtags: ${i.hashtags.join(" ")}`;
-          copyText(text);
+          const text = `Content Type: ${i.type}\nDestination: ${i.destination}\nHook: ${i.hook}\nShotlist: ${i.shotlist}\nCaption: ${i.caption}\nTags: ${i.tags?.join(", ")}\nHashtags: ${i.hashtags.join(" ")}`;
+          copyText(text, e);
         });
       });
       grid.querySelectorAll("[data-save]").forEach(btn => {
@@ -578,10 +607,7 @@ Hashtags: ${i.hashtags.join(" ")}`;
       if(state.season && !(d.season||[]).includes(state.season)) return false;
       if(state.budget && d.budget !== state.budget) return false;
       if(state.vibe && !(d.vibe||[]).includes(state.vibe)) return false;
-      if(state.search){
-        const s = state.search.toLowerCase();
-        if(!d.name.toLowerCase().includes(s)) return false;
-      }
+      if(state.search){ const s = state.search.toLowerCase(); if(!d.name.toLowerCase().includes(s)) return false; }
       return true;
     };
 
@@ -599,213 +625,42 @@ Hashtags: ${i.hashtags.join(" ")}`;
       status.textContent = "Generating…";
       try {
         let pool = state.dataset.filter(matchFilters);
-        if(!pool.length){
-          const term = state.search.toLowerCase();
-          pool = state.dataset.filter(d => d.name.toLowerCase().includes(term));
-          if(!pool.length) pool = state.dataset.slice();
-        }
+        if(!pool.length){ const term = state.search.toLowerCase(); pool = state.dataset.filter(d => d.name.toLowerCase().includes(term)); if(!pool.length) pool = state.dataset.slice(); }
         pool = shuffle(pool).slice(0, 6 + Math.floor(Math.random()*4)); // 6-9
         state.ideas = pool.map(d => makeIdea(d, state.type));
         renderIdeas();
         status.textContent = `Showing ${state.ideas.length} ideas`;
-      } catch (e) {
-        console.error(e);
-        status.textContent = "Something went wrong";
-        toast("Error generating ideas");
-      }
+      } catch (e) { console.error(e); status.textContent = "Something went wrong"; toast("Error generating ideas"); }
     };
 
     // --- Events ---
-    $$('.chip[data-type]').forEach(chip => {
-      chip.addEventListener('click', () => {
-        $$('.chip[data-type]').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        state.type = chip.getAttribute('data-type');
-        generate();
-      });
-    });
+    $$('.chip[data-type]').forEach(chip => { chip.addEventListener('click', () => { $$('.chip[data-type]').forEach(c => c.classList.remove('active')); chip.classList.add('active'); state.type = chip.getAttribute('data-type'); generate(); }); });
 
-    $("#inputDestination").addEventListener("keydown", (e) => {
-      if(e.key === "Enter"){ state.search = e.currentTarget.value.trim(); generate(); }
+    document.getElementById('selectDestList').addEventListener('change', (e)=>{
+      const val = e.target.value;
+      if(val === '__custom'){ showCustomPanel(true); return; }
+      showCustomPanel(false);
     });
-    $("#inputDestination").addEventListener("input", (e) => {
-      state.search = e.currentTarget.value.trim();
+    document.getElementById('btnUseSelected').addEventListener('click', ()=>{
+      const sel = document.getElementById('selectDestList');
+      const val = sel.value; if(!val){ toast('Pick a destination'); return; }
+      if(val === '__custom'){ showCustomPanel(true); return; }
+      document.getElementById('inputDestination').value = val; state.search = val; generate();
     });
-    $("#btnGenerate").addEventListener("click", generate);
-    $("#btnFeeling").addEventListener("click", () => {
-      const d = random(state.dataset);
-      $("#inputDestination").value = d.name;
-      state.search = d.name;
-      generate();
-    });
-    $("#selectSeason").addEventListener("change", e => { state.season = e.target.value; generate(); });
-    $("#selectBudget").addEventListener("change", e => { state.budget = e.target.value; generate(); });
-    $("#selectVibe").addEventListener("change", e => { state.vibe = e.target.value; generate(); });
-    $("#btnShuffle").addEventListener("click", generate);
-    $("#btnClear").addEventListener("click", () => {
-      state.search = ""; $("#inputDestination").value="";
-      state.season = ""; $("#selectSeason").value="";
-      state.budget = ""; $("#selectBudget").value="";
-      state.vibe = ""; $("#selectVibe").value="";
-      state.ideas = []; renderIdeas();
-      $("#status").textContent = "";
-    });
+    document.getElementById('btnAddCustom').addEventListener('click', addCustomDestination);
+    document.getElementById('btnCancelCustom').addEventListener('click', ()=>{ showCustomPanel(false); document.getElementById('selectDestList').value = ''; });
+
+    document.getElementById("inputDestination").addEventListener("keydown", (e) => { if(e.key === "Enter"){ state.search = e.currentTarget.value.trim(); generate(); } });
+    document.getElementById("inputDestination").addEventListener("input", (e) => { state.search = e.currentTarget.value.trim(); });
+    document.getElementById("btnGenerate").addEventListener("click", generate);
+    document.getElementById("btnFeeling").addEventListener("click", () => { const d = random(state.dataset); document.getElementById("inputDestination").value = d.name; state.search = d.name; generate(); });
+    document.getElementById("selectSeason").addEventListener("change", e => { state.season = e.target.value; generate(); });
+    document.getElementById("selectBudget").addEventListener("change", e => { state.budget = e.target.value; generate(); });
+    document.getElementById("selectVibe").addEventListener("change", e => { state.vibe = e.target.value; generate(); });
+    document.getElementById("btnShuffle").addEventListener("click", generate);
+    document.getElementById("btnClear").addEventListener("click", () => { state.search = ""; document.getElementById("inputDestination").value=""; state.season = ""; document.getElementById("selectSeason").value=""; state.budget = ""; document.getElementById("selectBudget").value=""; state.vibe = ""; document.getElementById("selectVibe").value=""; state.ideas = []; renderIdeas(); document.getElementById("status").textContent = ""; });
 
     // Saved drawer
     const drawer = $("#savedDrawer");
     const openSaved = ()=> drawer.style.transform = "translateX(0)";
-    const closeSaved = ()=> drawer.style.transform = "translateX(100%)";
-    $("#btnSaved").addEventListener("click", openSaved);
-    $("#btnCloseSaved").addEventListener("click", closeSaved);
-
-    $("#btnExport").addEventListener("click", () => {
-      const data = JSON.stringify(state.saved, null, 2);
-      const blob = new Blob([data], {type:"application/json"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url; a.download = "travel-ideas.json"; a.click();
-      URL.revokeObjectURL(url);
-    });
-    $("#btnCopyAll").addEventListener("click", () => {
-      if(!state.saved.length){ toast("Nothing saved yet"); return; }
-      const text = state.saved.map(i => `• ${i.type} · ${i.destination}\n  ${i.hook}\n  ${i.caption}\n  ${i.hashtags.join(" ")}\n`).join("\n");
-      copyText(text);
-    });
-
-    // Customize
-    const dlgCustomize = document.getElementById("dlgCustomize");
-    document.getElementById("btnCustomize").addEventListener("click", ()=> dlgCustomize.showModal());
-    const cfg = {
-      brandName: document.getElementById("cfgBrandName"),
-      tagline: document.getElementById("cfgTagline"),
-      handle: document.getElementById("cfgHandle"),
-      logo: document.getElementById("cfgLogo"),
-      A: document.getElementById("cfgA"),
-      B: document.getElementById("cfgB"),
-      ga4: document.getElementById("cfgGA4"),
-      plausible: document.getElementById("cfgPlausible"),
-    };
-    const fillCustomize = () => {
-      cfg.brandName.value = appConfig.brandName || "";
-      cfg.tagline.value = appConfig.brandTagline || "";
-      cfg.handle.value = appConfig.brandHandle || "";
-      cfg.logo.value = appConfig.logoURL || "";
-      cfg.A.value = appConfig.brandA || "#9D7BFF";
-      cfg.B.value = appConfig.brandB || "#00E0B8";
-      cfg.ga4.value = appConfig.analytics?.ga4 || "";
-      cfg.plausible.value = appConfig.analytics?.plausible || "";
-    };
-    fillCustomize();
-    document.getElementById("btnSaveCustomize").addEventListener("click", (e) => {
-      e.preventDefault();
-      appConfig.brandName = cfg.brandName.value || "Travel Idea Studio";
-      appConfig.brandTagline = cfg.tagline.value || "";
-      appConfig.brandHandle = cfg.handle.value || "";
-      appConfig.logoURL = cfg.logo.value || "";
-      appConfig.brandA = cfg.A.value || "#9D7BFF";
-      appConfig.brandB = cfg.B.value || "#00E0B8";
-      appConfig.analytics = { ga4: cfg.ga4.value.trim(), plausible: cfg.plausible.value.trim() };
-      localStorage.setItem("travel_idea_config", JSON.stringify(appConfig));
-      setBranding();
-      dlgCustomize.close();
-      toast("Branding updated");
-    });
-
-    // Data modal
-    const dlgData = document.getElementById("dlgData");
-    document.getElementById("btnData").addEventListener("click", ()=> dlgData.showModal());
-    document.getElementById("btnTestLoad").addEventListener("click", async (e)=>{
-      e.preventDefault();
-      const url = document.getElementById("dataURL").value.trim();
-      if(!url) return toast("Enter a URL");
-      try {
-        const res = await fetch(url, { cache:"no-store" });
-        const text = await res.text();
-        let arr;
-        try {
-          arr = JSON.parse(text);
-        } catch {
-          arr = parseCSV(text);
-        }
-        if(!Array.isArray(arr)) throw new Error("Parsed data is not an array");
-        const modeMerge = document.getElementById("modeMerge").checked;
-        const cleaned = arr.map(x => ({
-          name: x.name || "",
-          vibe: Array.isArray(x.vibe) ? x.vibe : (x.vibe||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean),
-          budget: x.budget || "",
-          season: Array.isArray(x.season) ? x.season : (x.season||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean),
-          hero: x.hero || ""
-        })).filter(x => x.name);
-        state.dataset = modeMerge ? state.dataset.concat(cleaned) : cleaned;
-        localStorage.setItem("travel_idea_dataset_temp", JSON.stringify(state.dataset));
-        toast("Data loaded ("+cleaned.length+") — press Generate");
-      } catch(err){
-        console.error(err); toast("Failed to load data");
-      }
-    });
-    document.getElementById("btnSaveDefault").addEventListener("click", async (e)=>{
-      e.preventDefault();
-      if(!state.dataset.length) return toast("Nothing to save");
-      localStorage.setItem("travel_idea_dataset_default", JSON.stringify(state.dataset));
-      toast("Saved as default dataset");
-    });
-
-    // Export site
-    const exportSite = () => {
-      const doc = document.documentElement.cloneNode(true);
-      const cfgEl = doc.querySelector("#app-config");
-      const baked = {
-        brandName: appConfig.brandName,
-        brandTagline: appConfig.brandTagline,
-        brandHandle: appConfig.brandHandle,
-        brandA: appConfig.brandA,
-        brandB: appConfig.brandB,
-        logoURL: appConfig.logoURL,
-        analytics: appConfig.analytics || { ga4:"", plausible:"" },
-        dataset: state.dataset
-      };
-      cfgEl.textContent = JSON.stringify(baked, null, 2);
-      const html = "<!doctype html>"+doc.outerHTML;
-      const blob = new Blob([html], {type:"text/html"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url; a.download = "travel_idea_studio_custom.html"; a.click();
-      URL.revokeObjectURL(url);
-    };
-    document.getElementById("btnExportSite").addEventListener("click", exportSite);
-
-    // Command palette: CTRL+K focus search
-    window.addEventListener("keydown", (e) => {
-      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k"){
-        e.preventDefault();
-        $("#inputDestination").focus();
-      }
-    });
-
-    // Bootstrap config from localStorage or baked app-config
-    try {
-      const saved = JSON.parse(localStorage.getItem("travel_idea_config") || "null");
-      if(saved){
-        Object.assign(appConfig, saved);
-        setBranding();
-      }
-      const baked = readConfig();
-      if(Array.isArray(baked.dataset)){
-        state.dataset = baked.dataset;
-      } else {
-        const def = JSON.parse(localStorage.getItem("travel_idea_dataset_default") || "null");
-        if(def) state.dataset = def;
-      }
-    } catch {}
-
-    // Initial render
-    renderSaved();
-    generate();
-  </script>
-</body>
-</html>
-"""
-path = "/mnt/data/travel_idea_studio_custom.html"
-with open(path, "w", encoding="utf-8") as f:
-    f.write(html)
-path
+    const closeSaved = ()=> drawer.style.transform = "transla
