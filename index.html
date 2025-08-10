@@ -1,0 +1,811 @@
+# Write the exported single-file site with baked branding + dataset
+html = """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travel Content Idea Studio — Pro</title>
+  <meta name="description" content="Generate scroll-stopping travel content ideas with a sexy dark UI. Brand it, load data from Google Sheets/JSON, add analytics, and export a one-file site." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: "#0b0f14",
+            card: "#0e131a",
+            line: "rgba(255,255,255,0.08)",
+          },
+          boxShadow: {
+            glow: "0 0 0 1px rgba(157,123,255,0.25), 0 8px 40px rgba(157,123,255,0.15), inset 0 0 60px rgba(157,123,255,0.05)"
+          },
+          fontFamily: { inter: ["Inter","system-ui","sans-serif"] },
+          animation: {
+            "slow-spin": "spin 18s linear infinite",
+            "float": "float 5s ease-in-out infinite",
+          },
+          keyframes: {
+            float: {
+              "0%,100%": { transform: "translateY(0)" },
+              "50%": { transform: "translateY(-8px)" }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root{
+      --brandA:#9D7BFF; /* primary */
+      --brandB:#00E0B8; /* accent */
+      --brandName:"Travel Idea Studio";
+      --brandTagline:"A sexy, distraction-free space to dream up scroll-stopping travel content.";
+      --brandHandle:"@ambitiousshrishti";
+      --logoURL:"";
+    }
+    ::-webkit-scrollbar{ width:10px; height:10px; }
+    ::-webkit-scrollbar-thumb{ background:linear-gradient(180deg, var(--brandA) 0%, var(--brandB) 100%); border-radius:12px; }
+    .glass { backdrop-filter: blur(12px); background: rgba(255,255,255,0.05); }
+    .grain::before{content:""; position:fixed; inset:0; opacity:.05; pointer-events:none; background-image:url('https://grainy-gradients.vercel.app/noise.svg'); }
+    .radial{
+      background: radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--brandA) 34%, transparent) , transparent 50%),
+                  radial-gradient(900px 500px at 90% 10%, color-mix(in oklab, var(--brandB) 28%, transparent), transparent 50%),
+                  radial-gradient(800px 400px at 50% 120%, rgba(255,255,255,.08), transparent 50%);
+    }
+    .btn {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1rem;
+      padding: .75rem 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      transition: box-shadow .2s, transform .04s, border-color .2s;
+    }
+    .btn:hover { box-shadow: 0 8px 30px color-mix(in oklab, var(--brandB) 18%, transparent); border-color: rgba(255,255,255,.18); }
+    .btn:active { transform: scale(.98); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brandA) 0%, var(--brandB) 100%);
+      color: #0b0f14;
+    }
+    .chip { padding:.35rem .7rem; border-radius:999px; border:1px solid rgba(255,255,255,0.12); font-size:.85rem; }
+    .chip.active { background: linear-gradient(135deg, color-mix(in oklab, var(--brandA) 35%, transparent), color-mix(in oklab, var(--brandB) 35%, transparent)); border-color: transparent; }
+    .card-idea { border-radius: 1rem; border:1px solid rgba(255,255,255,0.08); padding:1.1rem; background: color-mix(in oklab, #0e131a 88%, transparent); transition:.2s; box-shadow: 0 0 0 1px rgba(157,123,255,0.12), 0 8px 40px rgba(157,123,255,0.08), inset 0 0 60px rgba(157,123,255,0.05); }
+    .tag { font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; opacity:.8; }
+    .kbd { display:inline-flex; align-items:center; justify-content:center; padding:.1rem .4rem; border-radius:.35rem; border:1px solid rgba(255,255,255,.18); font-size:.75rem; }
+    .hidden-on-mobile { display:none; }
+    @media (min-width: 1024px) { .hidden-on-mobile { display:block; } }
+    dialog::backdrop { background: rgba(0,0,0,.5); backdrop-filter: blur(4px); }
+    .input { width:100%; background:transparent; border:1px solid rgba(255,255,255,.12); border-radius:.9rem; padding:.6rem .8rem; }
+    .input:focus { outline:none; border-color: color-mix(in oklab, var(--brandA) 40%, transparent); }
+    .label { font-size:.8rem; color: rgba(255,255,255,.7); }
+  </style>
+</head>
+<body class="grain min-h-screen bg-ink text-white font-inter selection:bg-[var(--brandA)]/40 selection:text-white">
+  <script id="app-config" type="application/json">
+  {
+    "brandName":"Neon Nomad Studio",
+    "brandTagline":"Where midnight vibes meet wanderlust reels.",
+    "brandHandle":"@neonnomad",
+    "brandA":"#FF3D81",
+    "brandB":"#00F5D4",
+    "logoURL":"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='rgb(255,61,129)'/><stop offset='100%' stop-color='rgb(0,245,212)'/></linearGradient></defs><rect width='512' height='512' rx='64' fill='url(%23g)'/><text x='50%' y='58%' text-anchor='middle' font-family='Inter,Arial,Helvetica,sans-serif' font-weight='900' font-size='260' fill='white'>NN</text></svg>",
+    "analytics":{ "ga4": "", "plausible": "" },
+    "dataset":[
+      { "name": "Jaipur, India", "vibe":["Culture","Foodie"], "budget":"Mid-range", "season":["Winter","Autumn"], "hero":"https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?q=80&w=1400&auto=format&fit=crop" },
+      { "name": "Bali, Indonesia", "vibe":["Beach","Romantic"], "budget":"Mid-range", "season":["Summer"], "hero":"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop" },
+      { "name": "Kyoto, Japan", "vibe":["Culture","Hidden gems"], "budget":"Luxury", "season":["Spring","Autumn"], "hero":"https://images.unsplash.com/photo-1511735111819-9a3f7709049c?q=80&w=1400&auto=format&fit=crop" },
+      { "name": "Tbilisi, Georgia", "vibe":["Hidden gems","Foodie"], "budget":"Shoestring", "season":["Spring","Autumn"], "hero":"https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?q=80&w=1400&auto=format&fit=crop" },
+      { "name": "Krabi, Thailand", "vibe":["Beach","Adventure"], "budget":"Shoestring", "season":["Winter","Summer"], "hero":"https://images.unsplash.com/photo-1545243424-0ce743321e11?q=80&w=1400&auto=format&fit=crop" },
+      { "name": "Lisbon, Portugal", "vibe":["Hidden gems","Foodie"], "budget":"Mid-range", "season":["Spring","Autumn"], "hero":"https://images.unsplash.com/photo-1543340900-5381232b9069?q=80&w=1400&auto=format&fit=crop" },
+      { "name": "Kerala Backwaters, India", "vibe":["Romantic","Hidden gems"], "budget":"Mid-range", "season":["Monsoon","Winter"], "hero":"https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?q=80&w=1400&auto=format&fit=crop" },
+      { "name": "Zanzibar, Tanzania", "vibe":["Beach","Romantic"], "budget":"Luxury", "season":["Summer","Winter"], "hero":"https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1400&auto=format&fit=crop" },
+      { "name": "Prague, Czechia", "vibe":["Culture","Hidden gems"], "budget":"Mid-range", "season":["Winter","Spring","Autumn"], "hero":"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1400&auto=format&fit=crop" }
+    ]
+  }
+  </script>
+
+  <!-- Decorative background -->
+  <div class="radial fixed inset-0 -z-10"></div>
+  <div class="pointer-events-none fixed -bottom-40 -right-40 w-[600px] h-[600px] rounded-full" style="background: color-mix(in oklab, var(--brandA) 18%, transparent); filter: blur(64px);"></div>
+  <div class="pointer-events-none fixed -top-40 -left-40 w-[600px] h-[600px] rounded-full" style="background: color-mix(in oklab, var(--brandB) 18%, transparent); filter: blur(64px);"></div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-ink/55 border-b border-line">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
+      <div class="relative w-9 h-9 rounded-xl overflow-hidden">
+        <div class="absolute inset-0 rounded-xl" style="background: conic-gradient(from 30deg, var(--brandA), var(--brandB), #fff)"></div>
+        <div class="absolute inset-[2px] rounded-xl bg-ink"></div>
+        <div class="absolute inset-0 flex items-center justify-center text-sm font-extrabold">TI</div>
+      </div>
+      <div class="flex-1">
+        <div class="flex items-center gap-3">
+          <h1 id="brandTitle" class="text-lg lg:text-xl font-bold tracking-tight"></h1>
+          <span class="hidden lg:inline-flex kbd">CTRL</span><span class="hidden lg:inline text-white/60 text-xs">+</span><span class="hidden lg:inline-flex kbd">K</span>
+        </div>
+        <p id="brandTagline" class="text-white/60 text-xs lg:text-sm"></p>
+      </div>
+
+      <button id="btnSaved" class="btn hidden sm:inline-flex">Saved Board</button>
+      <button id="btnCustomize" class="btn">⚙️ Customize</button>
+      <button id="btnData" class="btn hidden sm:inline-flex">Data Source</button>
+      <a href="https://app.netlify.com/drop" target="_blank" class="btn btn-primary hidden sm:inline-flex">Netlify Drop</a>
+      <button id="btnExportSite" class="btn btn-primary">Export Customized Site</button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="max-w-7xl mx-auto px-4 pt-10 pb-6 lg:pt-14">
+    <div class="relative overflow-hidden rounded-3xl border border-line glass" style="box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 8px 60px color-mix(in oklab, var(--brandA) 18%, transparent)">
+      <div class="absolute inset-0 opacity-[0.15]">
+        <img alt="Hero map" class="w-full h-full object-cover"
+             src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1600&auto=format&fit=crop" />
+      </div>
+      <div class="relative z-10 p-6 lg:p-12">
+        <div class="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-10">
+          <div class="flex-1">
+            <h2 class="text-2xl lg:text-4xl font-extrabold leading-tight">
+              Turn wanderlust into <span class="bg-gradient-to-r from-[var(--brandA)] via-white to-[var(--brandB)] bg-clip-text text-transparent">viral content</span>
+            </h2>
+            <p class="text-white/70 mt-3 lg:mt-4 text-sm lg:text-base max-w-2xl">
+              Generate hooks, shotlists, and caption starters tailored for your destination, vibe, and budget. Save the best ideas to a board and export when you’re ready to post.
+            </p>
+            <div class="mt-5 lg:mt-6 flex flex-wrap items-center gap-2">
+              <span class="chip active" data-type="Reel">Reels</span>
+              <span class="chip" data-type="Post">Posts</span>
+              <span class="chip" data-type="Story">Stories</span>
+              <span class="chip" data-type="Thread">Threads</span>
+              <span class="chip" data-type="Blog">Blog</span>
+            </div>
+          </div>
+          <div class="w-full lg:w-[520px]">
+            <div class="rounded-2xl border border-line glass p-3 lg:p-4">
+              <div class="flex gap-2">
+                <div class="relative flex-1">
+                  <input id="inputDestination" class="w-full bg-transparent outline-none rounded-xl border border-line focus:border-[var(--brandA)] transition p-3 pr-12" placeholder="Search a destination or theme (e.g., 'Jaipur cafés', 'budget Bali')" />
+                  <button id="btnFeeling" class="absolute right-2 top-1/2 -translate-y-1/2 chip">I’m feeling adventurous</button>
+                </div>
+                <button id="btnGenerate" class="btn btn-primary whitespace-nowrap">Generate</button>
+              </div>
+              <div class="mt-3 grid grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
+                <select id="selectSeason" class="input">
+                  <option value="">Any season</option>
+                  <option>Winter</option><option>Spring</option><option>Summer</option><option>Monsoon</option><option>Autumn</option>
+                </select>
+                <select id="selectBudget" class="input">
+                  <option value="">Any budget</option>
+                  <option>Shoestring</option><option>Mid-range</option><option>Luxury</option>
+                </select>
+                <select id="selectVibe" class="input">
+                  <option value="">Any vibe</option>
+                  <option>Romantic</option><option>Adventure</option><option>Hidden gems</option><option>Foodie</option><option>Beach</option><option>Culture</option><option>Solo</option>
+                </select>
+              </div>
+              <div class="mt-3 flex items-center justify-between">
+                <div class="text-xs text-white/60">Pro tip: hit <span class="kbd">Enter</span> to generate</div>
+                <div id="status" class="text-xs text-white/60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="max-w-7xl mx-auto px-4 pb-10 lg:pb-16">
+    <div class="flex items-center justify-between mb-3 lg:mb-5">
+      <h3 class="text-lg lg:text-2xl font-bold">Idea results</h3>
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-2 text-white/60 text-xs">
+          <span id="brandHandleShow"></span>
+        </div>
+        <button id="btnShuffle" class="btn">Shuffle</button>
+        <button id="btnClear" class="btn">Clear</button>
+      </div>
+    </div>
+    <div id="ideasGrid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-5"></div>
+  </section>
+
+  <!-- Saved Drawer -->
+  <aside id="savedDrawer" class="fixed right-0 top-0 h-full w-[92%] sm:w-[480px] translate-x-full transition-transform z-40">
+    <div class="h-full bg-card/95 border-l border-line backdrop-blur">
+      <div class="p-4 border-b border-line flex items-center justify-between">
+        <div>
+          <div class="text-sm uppercase tracking-wide text-white/60">Saved</div>
+          <div class="text-lg font-bold">Your Idea Board</div>
+        </div>
+        <button id="btnCloseSaved" class="btn">Close</button>
+      </div>
+      <div class="p-4 space-y-3 overflow-y-auto h-[calc(100%-160px)]" id="savedList"></div>
+      <div class="p-4 border-t border-line grid grid-cols-2 gap-2">
+        <button id="btnExport" class="btn">Export JSON</button>
+        <button id="btnCopyAll" class="btn btn-primary">Copy All</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Customize Modal -->
+  <dialog id="dlgCustomize" class="w-[92%] max-w-2xl rounded-2xl p-0 bg-card/95 border border-line">
+    <form method="dialog">
+      <div class="p-5 border-b border-line flex items-center justify-between">
+        <div>
+          <div class="text-sm uppercase tracking-wide text-white/60">Branding & Analytics</div>
+          <div class="text-lg font-bold">Customize</div>
+        </div>
+        <button class="btn">Close</button>
+      </div>
+      <div class="p-5 grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="label">Brand name</label>
+          <input id="cfgBrandName" class="input" placeholder="Your brand" />
+        </div>
+        <div>
+          <label class="label">Tagline</label>
+          <input id="cfgTagline" class="input" placeholder="Short tagline" />
+        </div>
+        <div>
+          <label class="label">Creator handle</label>
+          <input id="cfgHandle" class="input" placeholder="@yourhandle" />
+        </div>
+        <div>
+          <label class="label">Logo URL (optional)</label>
+          <input id="cfgLogo" class="input" placeholder="https://..." />
+        </div>
+        <div>
+          <label class="label">Brand gradient A</label>
+          <input id="cfgA" class="input" type="color" value="#9D7BFF" />
+        </div>
+        <div>
+          <label class="label">Brand gradient B</label>
+          <input id="cfgB" class="input" type="color" value="#00E0B8" />
+        </div>
+
+        <div class="sm:col-span-2 pt-2">
+          <div class="text-sm uppercase tracking-wide text-white/60 mb-2">Analytics (optional)</div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="label">GA4 Measurement ID (e.g., G-XXXX1234)</label>
+              <input id="cfgGA4" class="input" placeholder="G-XXXXXXXX" />
+            </div>
+            <div>
+              <label class="label">Plausible Domain (e.g., yoursite.com)</label>
+              <input id="cfgPlausible" class="input" placeholder="example.com" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-5 border-t border-line flex items-center justify-between gap-2">
+        <button class="btn" value="cancel">Cancel</button>
+        <button id="btnSaveCustomize" class="btn btn-primary" value="default">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Data Modal -->
+  <dialog id="dlgData" class="w-[92%] max-w-2xl rounded-2xl p-0 bg-card/95 border border-line">
+    <form method="dialog">
+      <div class="p-5 border-b border-line flex items-center justify-between">
+        <div>
+          <div class="text-sm uppercase tracking-wide text-white/60">Destinations</div>
+          <div class="text-lg font-bold">Data Source</div>
+        </div>
+        <button class="btn">Close</button>
+      </div>
+      <div class="p-5 space-y-3">
+        <p class="text-white/70 text-sm">Load a public <b>CSV</b> (Google Sheets: File → Share → Publish to web → CSV) or a <b>JSON</b> URL. Expected schema:</p>
+        <pre class="text-xs bg-black/30 p-3 rounded-xl border border-line overflow-x-auto">[
+  {
+    "name": "Jaipur, India",
+    "vibe": ["Culture","Foodie"],
+    "budget": "Mid-range",
+    "season": ["Winter","Autumn"],
+    "hero": "https://...image.jpg"
+  }
+]</pre>
+        <div>
+          <label class="label">CSV/JSON URL</label>
+          <input id="dataURL" class="input" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv" />
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <label class="flex items-center gap-2 text-sm"><input id="modeReplace" type="radio" name="mode" checked /> Replace dataset</label>
+          <label class="flex items-center gap-2 text-sm"><input id="modeMerge" type="radio" name="mode" /> Merge with current</label>
+        </div>
+        <div class="text-xs text-white/60">We respect CORS. If your URL blocks it, use Netlify Functions or publish via Google Sheets “publish to web”.</div>
+      </div>
+      <div class="p-5 border-t border-line flex items-center justify-between gap-2">
+        <button class="btn" value="cancel">Cancel</button>
+        <div class="flex gap-2">
+          <button id="btnTestLoad" class="btn">Test & Load</button>
+          <button id="btnSaveDefault" class="btn btn-primary">Save as Default</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Footer -->
+  <footer class="border-t border-line">
+    <div class="max-w-7xl mx-auto px-4 py-10 lg:py-12 grid lg:grid-cols-2 gap-6">
+      <div>
+        <h4 class="text-xl font-bold mb-2">Design notes</h4>
+        <p class="text-white/70 text-sm lg:text-base">
+          Dark, glossy glass UI with neon gradient accents, micro-interactions, and soft glows. Mobile-first and keyboard friendly.
+          One-file build for instant hosting: try <b>Netlify Drop</b> for a public URL in seconds.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <div class="rounded-2xl border border-line p-4 glass">
+          <div class="tag mb-2">Deploy in seconds</div>
+          <ol class="text-white/70 text-sm list-decimal list-inside space-y-1">
+            <li>Click <span class="kbd">Netlify Drop</span> above</li>
+            <li>Drag & drop your exported HTML</li>
+            <li>Get a public link instantly</li>
+          </ol>
+        </div>
+        <div class="rounded-2xl border border-line p-4 glass">
+          <div class="tag mb-2">Tips</div>
+          <ul class="text-white/70 text-sm space-y-1">
+            <li>Press <span class="kbd">CTRL</span> + <span class="kbd">K</span> to focus search</li>
+            <li>Save your best ideas to the board</li>
+            <li>Export a customized site with your branding</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 hidden">
+    <div class="rounded-xl border border-line glass px-4 py-3 text-sm shadow-glow flex items-center gap-2">
+      <span id="toastText"></span>
+    </div>
+  </div>
+
+  <script>
+    // --- CONFIG ---
+    const readConfig = () => {
+      try { return JSON.parse(document.getElementById("app-config").textContent || "{}"); }
+      catch(e){ return {}; }
+    };
+    const appConfig = readConfig();
+    const setCSS = () => {
+      document.documentElement.style.setProperty("--brandA", appConfig.brandA || "#9D7BFF");
+      document.documentElement.style.setProperty("--brandB", appConfig.brandB || "#00E0B8");
+      document.getElementById("brandTitle").textContent = appConfig.brandName || "Travel Idea Studio";
+      document.getElementById("brandTagline").textContent = appConfig.brandTagline || "";
+      document.getElementById("brandHandleShow").textContent = appConfig.brandHandle || "";
+      if(appConfig.logoURL){
+        const logo = document.querySelector("header .relative.w-9.h-9");
+        logo.innerHTML = '<img alt="logo" class="w-full h-full object-cover rounded-xl" src="'+appConfig.logoURL+'"/>';
+      }
+    };
+
+    const injectAnalytics = () => {
+      if(appConfig.analytics?.ga4){
+        const id = appConfig.analytics.ga4;
+        const s1 = document.createElement("script");
+        s1.async = true; s1.src = "https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(id);
+        document.head.appendChild(s1);
+        const s2 = document.createElement("script");
+        s2.textContent = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config','${id}');`;
+        document.head.appendChild(s2);
+      }
+      if(appConfig.analytics?.plausible){
+        const s = document.createElement("script");
+        s.defer = true; s.setAttribute("data-domain", appConfig.analytics.plausible);
+        s.src = "https://plausible.io/js/script.js";
+        document.head.appendChild(s);
+      }
+    };
+
+    // --- Data ---
+    const DEFAULT_DATA = [
+      { name: "Jaipur, India", vibe:["Culture","Foodie"], budget:"Mid-range", season:["Winter","Autumn"], hero:"https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?q=80&w=1400&auto=format&fit=crop" },
+      { name: "Bali, Indonesia", vibe:["Beach","Romantic"], budget:"Mid-range", season:["Summer"], hero:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop" },
+      { name: "Kyoto, Japan", vibe:["Culture","Hidden gems"], budget:"Luxury", season:["Spring","Autumn"], hero:"https://images.unsplash.com/photo-1511735111819-9a3f7709049c?q=80&w=1400&auto=format&fit=crop" },
+      { name: "Tbilisi, Georgia", vibe:["Hidden gems","Foodie"], budget:"Shoestring", season:["Spring","Autumn"], hero:"https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?q=80&w=1400&auto=format&fit=crop" },
+      { name: "Krabi, Thailand", vibe:["Beach","Adventure"], budget:"Shoestring", season:["Winter","Summer"], hero:"https://images.unsplash.com/photo-1545243424-0ce743321e11?q=80&w=1400&auto=format&fit=crop" },
+      { name: "Lisbon, Portugal", vibe:["Hidden gems","Foodie"], budget:"Mid-range", season:["Spring","Autumn"], hero:"https://images.unsplash.com/photo-1543340900-5381232b9069?q=80&w=1400&auto=format&fit=crop" },
+      { name: "Kerala Backwaters, India", vibe:["Romantic","Hidden gems"], budget:"Mid-range", season:["Monsoon","Winter"], hero:"https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?q=80&w=1400&auto=format&fit=crop" },
+      { name: "Zanzibar, Tanzania", vibe:["Beach","Romantic"], budget:"Luxury", season:["Summer","Winter"], hero:"https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1400&auto=format&fit=crop" },
+      { name: "Prague, Czechia", vibe:["Culture","Hidden gems"], budget:"Mid-range", season:["Winter","Spring","Autumn"], hero:"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1400&auto=format&fit=crop" },
+    ];
+    const HOOKS = [
+      d => `This is your sign to visit ${d} — but do it smarter.`,
+      d => `${d} on a budget: the exact plan I used.`,
+      d => `3 hidden corners of ${d} the tour groups miss.`,
+      d => `POV: You landed in ${d} with 48 hours and ₹25k.`,
+      d => `First time in ${d}? Save this.`,
+      d => `What nobody tells you about ${d} in monsoon.`,
+      d => `${d} but make it romantic — no clichés.`,
+      d => `Eat like a local in ${d}: no Michelin, all magic.`,
+    ];
+    const SHOTLIST = [
+      "arrival timelapse · local transport · street POV",
+      "golden-hour landmarks · slow pan · wide to detail",
+      "market b-roll · cooking close-ups · vendor smile",
+      "hidden alley · reveal shot · POV walk + ambient sound",
+      "rooftop sunset · skyline tilt-up · cheers transition",
+      "beach footsteps · drone pullback (or pretend with stairs)",
+      "morning coffee · notebook plan · map overlay",
+      "night scenes · neon signs · cozy dinner table",
+    ];
+    const CAPTION = [
+      (d)=>`Saved this for your ${d} trip — steal my exact route, eats, and best times to go.`,
+      (d)=>`I planned ${d} so you don’t have to. Keep, share, repeat.`,
+      (d)=>`${d} in one perfect weekend. Short, sweet, unforgettable.`,
+      (d)=>`From airport to ‘wow’ in ${d}. Here’s the blueprint.`,
+    ];
+    const HASHTAGS = ["#TravelIndia","#BudgetTravel","#HiddenGems","#SoloTravel","#CoupleGoals","#Foodie","#BeachDays","#CultureTrip","#ReelsIndia","#Itinerary"];
+    const THEMES = ["Weekend escape","Budget foodie crawl","Sunrise-to-sunset reel","Monsoon cozy vibes","Solo safety checklist","Café-hopping map","Romantic 24h","Local markets","Nature day trip"];
+
+    // --- Utilities ---
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+    const toast = (msg) => {
+      const t = $("#toast"); $("#toastText").textContent = msg; t.classList.remove("hidden");
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(()=>t.classList.add("hidden"), 2200);
+    };
+    const random = arr => arr[Math.floor(Math.random()*arr.length)];
+    const shuffle = (arr) => arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+    const copyText = async (text) => {
+      try { await navigator.clipboard.writeText(text); toast("Copied to clipboard"); }
+      catch(e){ console.error(e); toast("Copy failed"); }
+    };
+    const parseCSV = (csv) => {
+      const lines = csv.trim().split(/\r?\n/);
+      const headers = lines.shift().split(",").map(h => h.trim());
+      const idx = (k)=> headers.findIndex(h => h.toLowerCase()===k.toLowerCase());
+      const out = [];
+      for(const line of lines){
+        if(!line.trim()) continue;
+        const cells = line.split(",").map(c => c.trim());
+        const get = (k)=> cells[idx(k)] || "";
+        const vibes = (get("vibe")||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean);
+        const seasons = (get("season")||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean);
+        out.push({ name:get("name"), vibe:vibes, budget:get("budget")||"", season:seasons, hero:get("hero")||"" });
+      }
+      return out;
+    };
+
+    // --- State ---
+    let state = {
+      type: "Reel",
+      search: "",
+      season: "",
+      budget: "",
+      vibe: "",
+      ideas: [],
+      saved: JSON.parse(localStorage.getItem("travel_ideas_saved") || "[]"),
+      dataset: DEFAULT_DATA.slice(),
+    };
+
+    // Apply branding
+    const setBranding = () => { setCSS(); injectAnalytics(); };
+    setBranding();
+
+    // --- Renderers ---
+    const ideaCard = (idea, idx) => {
+      const img = idea.hero || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1400&auto=format&fit=crop";
+      const tags = idea.tags?.map(t=>`<span class="chip">${t}</span>`).join(" ") || "";
+      return `
+      <article class="card-idea group">
+        <div class="relative overflow-hidden rounded-xl mb-3">
+          <img alt="${idea.destination}" src="${img}" class="w-full h-44 object-cover transition group-hover:scale-[1.04]" />
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent"></div>
+          <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between">
+            <div>
+              <div class="tag mb-0.5">${idea.type}</div>
+              <div class="font-semibold">${idea.destination}</div>
+            </div>
+            <button class="btn text-xs" data-copy="${idx}">Copy</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div><span class="tag">Hook</span><div class="text-white/90 leading-snug">${idea.hook}</div></div>
+          <div><span class="tag">Shotlist</span><div class="text-white/80 text-sm">${idea.shotlist}</div></div>
+          <div><span class="tag">Caption starter</span><div class="text-white/80 text-sm">${idea.caption}</div></div>
+          <div class="flex flex-wrap gap-2">${tags}</div>
+          <div class="text-white/50 text-xs">${idea.hashtags.join(" ")}</div>
+        </div>
+        <div class="mt-3 flex items-center gap-2">
+          <button class="btn flex-1" data-save="${idx}">Save</button>
+          <a class="btn flex-1" target="_blank" href="https://www.google.com/maps/search/${encodeURIComponent(idea.destination)}">Open in Maps</a>
+        </div>
+      </article>`;
+    };
+
+    const renderIdeas = () => {
+      const grid = $("#ideasGrid");
+      grid.innerHTML = state.ideas.map(ideaCard).join("");
+      grid.querySelectorAll("[data-copy]").forEach(btn => {
+        btn.addEventListener("click", e => {
+          const idx = +e.currentTarget.getAttribute("data-copy");
+          const i = state.ideas[idx];
+          const text = `Content Type: ${i.type}
+Destination: ${i.destination}
+Hook: ${i.hook}
+Shotlist: ${i.shotlist}
+Caption: ${i.caption}
+Tags: ${i.tags?.join(", ")}
+Hashtags: ${i.hashtags.join(" ")}`;
+          copyText(text);
+        });
+      });
+      grid.querySelectorAll("[data-save]").forEach(btn => {
+        btn.addEventListener("click", e => {
+          const idx = +e.currentTarget.getAttribute("data-save");
+          const i = state.ideas[idx];
+          state.saved.unshift(i);
+          localStorage.setItem("travel_ideas_saved", JSON.stringify(state.saved));
+          toast("Saved to board");
+          renderSaved();
+        });
+      });
+    };
+
+    const renderSaved = () => {
+      const list = $("#savedList");
+      if(!state.saved.length){ list.innerHTML = '<div class="text-white/60 text-sm">No saved ideas yet.</div>'; return; }
+      list.innerHTML = state.saved.map((i, n) => `
+        <div class="rounded-xl border border-line p-4 glass">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="tag">${i.type} · ${i.destination}</div>
+              <div class="font-semibold">${i.hook}</div>
+            </div>
+            <button class="chip" data-remove="${n}">Remove</button>
+          </div>
+          <div class="mt-2 text-white/80 text-sm">${i.caption}</div>
+          <div class="mt-2 text-white/50 text-xs">${i.hashtags.join(" ")}</div>
+        </div>
+      `).join("");
+      list.querySelectorAll("[data-remove]").forEach(btn => {
+        btn.addEventListener("click", e => {
+          const idx = +e.currentTarget.getAttribute("data-remove");
+          state.saved.splice(idx,1);
+          localStorage.setItem("travel_ideas_saved", JSON.stringify(state.saved));
+          renderSaved();
+        });
+      });
+    };
+
+    // --- Generation ---
+    const matchFilters = (d) => {
+      if(state.season && !(d.season||[]).includes(state.season)) return false;
+      if(state.budget && d.budget !== state.budget) return false;
+      if(state.vibe && !(d.vibe||[]).includes(state.vibe)) return false;
+      if(state.search){
+        const s = state.search.toLowerCase();
+        if(!d.name.toLowerCase().includes(s)) return false;
+      }
+      return true;
+    };
+
+    const makeIdea = (dest, type) => {
+      const hook = random(HOOKS)(dest.name);
+      const shotlist = random(SHOTLIST);
+      const caption = random(CAPTION)(dest.name);
+      const tags = [random(THEMES), dest.budget+" budget", random(dest.vibe || ["Vibes"])];
+      const hashtags = shuffle(HASHTAGS).slice(0,6);
+      return { type, destination: dest.name, hook, shotlist, caption, tags, hashtags, hero: dest.hero };
+    };
+
+    const generate = () => {
+      const status = $("#status");
+      status.textContent = "Generating…";
+      try {
+        let pool = state.dataset.filter(matchFilters);
+        if(!pool.length){
+          const term = state.search.toLowerCase();
+          pool = state.dataset.filter(d => d.name.toLowerCase().includes(term));
+          if(!pool.length) pool = state.dataset.slice();
+        }
+        pool = shuffle(pool).slice(0, 6 + Math.floor(Math.random()*4)); // 6-9
+        state.ideas = pool.map(d => makeIdea(d, state.type));
+        renderIdeas();
+        status.textContent = `Showing ${state.ideas.length} ideas`;
+      } catch (e) {
+        console.error(e);
+        status.textContent = "Something went wrong";
+        toast("Error generating ideas");
+      }
+    };
+
+    // --- Events ---
+    $$('.chip[data-type]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        $$('.chip[data-type]').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        state.type = chip.getAttribute('data-type');
+        generate();
+      });
+    });
+
+    $("#inputDestination").addEventListener("keydown", (e) => {
+      if(e.key === "Enter"){ state.search = e.currentTarget.value.trim(); generate(); }
+    });
+    $("#inputDestination").addEventListener("input", (e) => {
+      state.search = e.currentTarget.value.trim();
+    });
+    $("#btnGenerate").addEventListener("click", generate);
+    $("#btnFeeling").addEventListener("click", () => {
+      const d = random(state.dataset);
+      $("#inputDestination").value = d.name;
+      state.search = d.name;
+      generate();
+    });
+    $("#selectSeason").addEventListener("change", e => { state.season = e.target.value; generate(); });
+    $("#selectBudget").addEventListener("change", e => { state.budget = e.target.value; generate(); });
+    $("#selectVibe").addEventListener("change", e => { state.vibe = e.target.value; generate(); });
+    $("#btnShuffle").addEventListener("click", generate);
+    $("#btnClear").addEventListener("click", () => {
+      state.search = ""; $("#inputDestination").value="";
+      state.season = ""; $("#selectSeason").value="";
+      state.budget = ""; $("#selectBudget").value="";
+      state.vibe = ""; $("#selectVibe").value="";
+      state.ideas = []; renderIdeas();
+      $("#status").textContent = "";
+    });
+
+    // Saved drawer
+    const drawer = $("#savedDrawer");
+    const openSaved = ()=> drawer.style.transform = "translateX(0)";
+    const closeSaved = ()=> drawer.style.transform = "translateX(100%)";
+    $("#btnSaved").addEventListener("click", openSaved);
+    $("#btnCloseSaved").addEventListener("click", closeSaved);
+
+    $("#btnExport").addEventListener("click", () => {
+      const data = JSON.stringify(state.saved, null, 2);
+      const blob = new Blob([data], {type:"application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "travel-ideas.json"; a.click();
+      URL.revokeObjectURL(url);
+    });
+    $("#btnCopyAll").addEventListener("click", () => {
+      if(!state.saved.length){ toast("Nothing saved yet"); return; }
+      const text = state.saved.map(i => `• ${i.type} · ${i.destination}\n  ${i.hook}\n  ${i.caption}\n  ${i.hashtags.join(" ")}\n`).join("\n");
+      copyText(text);
+    });
+
+    // Customize
+    const dlgCustomize = document.getElementById("dlgCustomize");
+    document.getElementById("btnCustomize").addEventListener("click", ()=> dlgCustomize.showModal());
+    const cfg = {
+      brandName: document.getElementById("cfgBrandName"),
+      tagline: document.getElementById("cfgTagline"),
+      handle: document.getElementById("cfgHandle"),
+      logo: document.getElementById("cfgLogo"),
+      A: document.getElementById("cfgA"),
+      B: document.getElementById("cfgB"),
+      ga4: document.getElementById("cfgGA4"),
+      plausible: document.getElementById("cfgPlausible"),
+    };
+    const fillCustomize = () => {
+      cfg.brandName.value = appConfig.brandName || "";
+      cfg.tagline.value = appConfig.brandTagline || "";
+      cfg.handle.value = appConfig.brandHandle || "";
+      cfg.logo.value = appConfig.logoURL || "";
+      cfg.A.value = appConfig.brandA || "#9D7BFF";
+      cfg.B.value = appConfig.brandB || "#00E0B8";
+      cfg.ga4.value = appConfig.analytics?.ga4 || "";
+      cfg.plausible.value = appConfig.analytics?.plausible || "";
+    };
+    fillCustomize();
+    document.getElementById("btnSaveCustomize").addEventListener("click", (e) => {
+      e.preventDefault();
+      appConfig.brandName = cfg.brandName.value || "Travel Idea Studio";
+      appConfig.brandTagline = cfg.tagline.value || "";
+      appConfig.brandHandle = cfg.handle.value || "";
+      appConfig.logoURL = cfg.logo.value || "";
+      appConfig.brandA = cfg.A.value || "#9D7BFF";
+      appConfig.brandB = cfg.B.value || "#00E0B8";
+      appConfig.analytics = { ga4: cfg.ga4.value.trim(), plausible: cfg.plausible.value.trim() };
+      localStorage.setItem("travel_idea_config", JSON.stringify(appConfig));
+      setBranding();
+      dlgCustomize.close();
+      toast("Branding updated");
+    });
+
+    // Data modal
+    const dlgData = document.getElementById("dlgData");
+    document.getElementById("btnData").addEventListener("click", ()=> dlgData.showModal());
+    document.getElementById("btnTestLoad").addEventListener("click", async (e)=>{
+      e.preventDefault();
+      const url = document.getElementById("dataURL").value.trim();
+      if(!url) return toast("Enter a URL");
+      try {
+        const res = await fetch(url, { cache:"no-store" });
+        const text = await res.text();
+        let arr;
+        try {
+          arr = JSON.parse(text);
+        } catch {
+          arr = parseCSV(text);
+        }
+        if(!Array.isArray(arr)) throw new Error("Parsed data is not an array");
+        const modeMerge = document.getElementById("modeMerge").checked;
+        const cleaned = arr.map(x => ({
+          name: x.name || "",
+          vibe: Array.isArray(x.vibe) ? x.vibe : (x.vibe||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean),
+          budget: x.budget || "",
+          season: Array.isArray(x.season) ? x.season : (x.season||"").split(/;|\|/).map(s=>s.trim()).filter(Boolean),
+          hero: x.hero || ""
+        })).filter(x => x.name);
+        state.dataset = modeMerge ? state.dataset.concat(cleaned) : cleaned;
+        localStorage.setItem("travel_idea_dataset_temp", JSON.stringify(state.dataset));
+        toast("Data loaded ("+cleaned.length+") — press Generate");
+      } catch(err){
+        console.error(err); toast("Failed to load data");
+      }
+    });
+    document.getElementById("btnSaveDefault").addEventListener("click", async (e)=>{
+      e.preventDefault();
+      if(!state.dataset.length) return toast("Nothing to save");
+      localStorage.setItem("travel_idea_dataset_default", JSON.stringify(state.dataset));
+      toast("Saved as default dataset");
+    });
+
+    // Export site
+    const exportSite = () => {
+      const doc = document.documentElement.cloneNode(true);
+      const cfgEl = doc.querySelector("#app-config");
+      const baked = {
+        brandName: appConfig.brandName,
+        brandTagline: appConfig.brandTagline,
+        brandHandle: appConfig.brandHandle,
+        brandA: appConfig.brandA,
+        brandB: appConfig.brandB,
+        logoURL: appConfig.logoURL,
+        analytics: appConfig.analytics || { ga4:"", plausible:"" },
+        dataset: state.dataset
+      };
+      cfgEl.textContent = JSON.stringify(baked, null, 2);
+      const html = "<!doctype html>"+doc.outerHTML;
+      const blob = new Blob([html], {type:"text/html"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "travel_idea_studio_custom.html"; a.click();
+      URL.revokeObjectURL(url);
+    };
+    document.getElementById("btnExportSite").addEventListener("click", exportSite);
+
+    // Command palette: CTRL+K focus search
+    window.addEventListener("keydown", (e) => {
+      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k"){
+        e.preventDefault();
+        $("#inputDestination").focus();
+      }
+    });
+
+    // Bootstrap config from localStorage or baked app-config
+    try {
+      const saved = JSON.parse(localStorage.getItem("travel_idea_config") || "null");
+      if(saved){
+        Object.assign(appConfig, saved);
+        setBranding();
+      }
+      const baked = readConfig();
+      if(Array.isArray(baked.dataset)){
+        state.dataset = baked.dataset;
+      } else {
+        const def = JSON.parse(localStorage.getItem("travel_idea_dataset_default") || "null");
+        if(def) state.dataset = def;
+      }
+    } catch {}
+
+    // Initial render
+    renderSaved();
+    generate();
+  </script>
+</body>
+</html>
+"""
+path = "/mnt/data/travel_idea_studio_custom.html"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(html)
+path
